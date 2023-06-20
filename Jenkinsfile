@@ -1,16 +1,16 @@
 pipeline {
     agent any
-    parameters {
-        string(name: 'GREETING', defaultValue: 'Hello', description: 'Greeting to use')
-        string(name: 'NAME', defaultValue: 'World', description: 'Name to greet')
-    }
-    environment {
-        HOMEDIR = "${env.WORKSPACE}"
-    }
     stages {
         stage('Example') {
+            when { 
+                anyOf { 
+                    branch 'master'; 
+                    branch 'dev'; 
+                    branch 'test' 
+                } 
+            }
             steps {
-                echo "${params.GREETING}, ${params.NAME} from ${env.HOMEDIR}"
+                echo 'Running on master, dev, or test branch.'
             }
         }
     }
